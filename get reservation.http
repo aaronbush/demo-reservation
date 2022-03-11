@@ -1,0 +1,44 @@
+GET http://localhost:8080/12
+Accept: application/json
+
+###
+
+# This pair is incorrect.  Concurrently running will result in same id being reserved.
+GET http://localhost:8080/reserve/5
+Accept: application/json
+###
+GET http://localhost:8080/reserve/1
+Accept: application/json
+
+###
+# Below here are endpoints which will behave more as expected; via locking, versioning, +retrying, etc.
+GET http://localhost:8080/versionedReserve/5
+Accept: application/json
+###
+GET http://localhost:8080/versionedReserve/1
+Accept: application/json
+
+
+###
+GET http://localhost:8080/reserveRepeatableRead/5
+Accept: application/json
+###
+GET http://localhost:8080/reserveRepeatableRead/1
+Accept: application/json
+
+
+###
+GET http://localhost:8080/reserveAndGetSkipLocked/5
+Accept: application/json
+###
+GET http://localhost:8080/reserveAndGetSkipLocked/1
+Accept: application/json
+
+###
+GET http://localhost:8080/pessimisticReserve/5
+Accept: application/json
+###
+GET http://localhost:8080/pessimisticReserve/1
+Accept: application/json
+
+###
