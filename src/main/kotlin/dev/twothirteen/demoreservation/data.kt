@@ -43,7 +43,6 @@ class VersionedReservation(
     }
 }
 
-
 // A repo for @Versioned entities
 @Repository
 interface VersionedReservationRepository : CrudRepository<VersionedReservation, Int> {

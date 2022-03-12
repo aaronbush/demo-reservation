@@ -35,15 +35,7 @@ class ReservationService(
         println("found reservation with id: ${r.accountId}, sleeping for $delay sec")
         Thread.sleep(delay * 1000)
         r.status = "reserved"
-        return repository.save(r)
-    }
-
-    private fun findFirstAvailable(delay: Long): Reservation {
-        val r = repository.findFirstByStatusEquals("available").get()
-        println("found reservation with id: ${r.accountId}, sleeping for $delay sec")
-        Thread.sleep(delay * 1000)
-        r.status = "reserved"
-        return repository.save(r)
+        return pessimisticReservationRepository.save(r)
     }
 
     @Transactional
@@ -52,5 +44,13 @@ class ReservationService(
         println("found reservation with id: ${r.accountId}, sleeping for $delay sec")
         Thread.sleep(delay * 1000)
         return r
+    }
+
+    private fun findFirstAvailable(delay: Long): Reservation {
+        val r = repository.findFirstByStatusEquals("available").get()
+        println("found reservation with id: ${r.accountId}, sleeping for $delay sec")
+        Thread.sleep(delay * 1000)
+        r.status = "reserved"
+        return repository.save(r)
     }
 }
